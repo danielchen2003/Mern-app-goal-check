@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "http://localhost:5088",
+  "proxy": "https://mern-pratice-app-chen.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
