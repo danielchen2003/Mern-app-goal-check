@@ -1,10 +1,11 @@
-import axios from 'axios'
+import axios from "axios"
 
-const API_URL = '/api/goals/'
+const API_URL = "/api/goals/"
 
 // Create new goal
 const createGoal = async (goalData, token) => {
   const config = {
+    //token 放入 header 可以验证身份
     headers: {
       Authorization: `Bearer ${token}`,
     },

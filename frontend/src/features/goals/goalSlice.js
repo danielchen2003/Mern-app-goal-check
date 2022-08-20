@@ -1,19 +1,21 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import goalService from './goalService'
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import goalService from "./goalService"
+//初始化 react redux 的state 的状态
+//pokemon 里面我有就几个状态 iswinner initation isplaying 三个状态
 const initialState = {
   goals: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: '',
+  message: "",
 }
 
 // Create new goal
 export const createGoal = createAsyncThunk(
-  'goals/create',
+  "goals/create",
   async (goalData, thunkAPI) => {
     try {
+      //thnukAPI的作用就是可以取得任何state from auth
       const token = thunkAPI.getState().auth.user.token
       return await goalService.createGoal(goalData, token)
     } catch (error) {
@@ -30,9 +32,10 @@ export const createGoal = createAsyncThunk(
 
 // Get user goals
 export const getGoals = createAsyncThunk(
-  'goals/getAll',
+  "goals/getAll",
   async (_, thunkAPI) => {
     try {
+      //都是protected
       const token = thunkAPI.getState().auth.user.token
       return await goalService.getGoals(token)
     } catch (error) {
@@ -49,7 +52,7 @@ export const getGoals = createAsyncThunk(
 
 // Delete user goal
 export const deleteGoal = createAsyncThunk(
-  'goals/delete',
+  "goals/delete",
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
@@ -67,7 +70,7 @@ export const deleteGoal = createAsyncThunk(
 )
 
 export const goalSlice = createSlice({
-  name: 'goal',
+  name: "goal",
   initialState,
   reducers: {
     reset: (state) => initialState,

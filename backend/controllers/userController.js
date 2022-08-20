@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const asyncHandler = require('express-async-handler')
-const User = require('../models/userModel')
+const jwt = require("jsonwebtoken")
+//简单对api 保护 每次登陆产生一个token 授权用户登陆 有时间限制
+const bcrypt = require("bcryptjs")
+const asyncHandler = require("express-async-handler")
+const User = require("../models/userModel")
 
 // @desc    Register new user
 // @route   POST /api/users
@@ -11,7 +12,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!name || !email || !password) {
     res.status(400)
-    throw new Error('Please add all fields')
+    throw new Error("Please add all fields")
   }
 
   // Check if user exists
@@ -19,14 +20,14 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400)
-    throw new Error('User already exists')
+    throw new Error("User already exists")
   }
 
-  // Hash password
+  // Hash password hash 把密码加密 加入沙子
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(password, salt)
 
-  // Create user
+  // Create user 可以用来注册用户
   const user = await User.create({
     name,
     email,
@@ -42,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(400)
-    throw new Error('Invalid user data')
+    throw new Error("Invalid user data")
   }
 })
 
@@ -54,7 +55,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Check for user email
   const user = await User.findOne({ email })
-
+  //这时候密码存在mangodb 而且是被hash的状态
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       _id: user.id,
@@ -64,21 +65,22 @@ const loginUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(400)
-    throw new Error('Invalid credentials')
+    throw new Error("Invalid credentials")
   }
 })
 
 // @desc    Get user data
 // @route   GET /api/users/me
 // @access  Private
+//取得用户资料是保密的
 const getMe = asyncHandler(async (req, res) => {
   res.status(200).json(req.user)
 })
 
-// Generate JWT
+// Generate JWT json web token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
+    expiresIn: "30d",
   })
 }
 
