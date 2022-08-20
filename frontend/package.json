@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "https://mern-pratice-app-chen.herokuapp.com/",
+  "proxy": "https://mern-pratice-app-chen.herokuapp.com/api",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
